@@ -7,9 +7,28 @@ FBullCowGame::FBullCowGame() { Reset(); }
 int32 FBullCowGame::GetMaxTries() const { return MyMaxTries;}
 int32 FBullCowGame::GetCurrentTry() const { return MyCurrentTry; }
 
-EWordStatus FBullCowGame::CheckGuessValidity(FString) const
+EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 {
-	return EWordStatus::OK; // TODO make actual error
+	// if the guess isn't an isogram, return an error
+	if (false)
+	{
+		return EGuessStatus::Not_Isogram;
+	}
+	// if the guess isn't all lowercase, return an error
+	else if (false)
+	{
+		return EGuessStatus::Not_Lowercase;
+	}
+	// if the guess length if wrong, return an error
+	else if (Guess.length() != GetHiddenWordLength())
+	{
+		return EGuessStatus::Wrong_Length;
+	}
+	// otherwise return OK
+	else
+	{
+		return EGuessStatus::OK;
+	}
 }
 
 int32 FBullCowGame::GetHiddenWordLength() const
