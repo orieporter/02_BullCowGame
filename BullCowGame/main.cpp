@@ -53,7 +53,7 @@ void PlayGame()
 		FText Guess = GetValidGuess(); // TODO make loop checking valid
 
 		// submit valid guess to the game, and receive counts
-		FBullCowCount BullCowCount = BCGame.SubmitGuess(Guess);
+		FBullCowCount BullCowCount = BCGame.SubmitValidGuess(Guess);
 		
 		std::cout << "Bulls = " << BullCowCount.Bulls;
 		std::cout << ". Cows = " << BullCowCount.Cows << "\n" << std::endl;
@@ -66,6 +66,7 @@ void PlayGame()
 FText GetValidGuess()
 {
 	EGuessStatus Status = EGuessStatus::Invalid_Status;
+	FText Guess = "";
 
 	do
 	{
@@ -73,9 +74,9 @@ FText GetValidGuess()
 
 		// get a guess from the player
 		std::cout << "Try " << CurrentTry << ". Enter your guess: ";
-		FText Guess = "";
 		std::getline(std::cin, Guess);
 
+		// check status and give feedback
 		Status = BCGame.CheckGuessValidity(Guess);
 		switch (Status)
 		{
@@ -89,10 +90,12 @@ FText GetValidGuess()
 			std::cout << "Please enter all lowercase letters.\n";
 			break;
 		default:
-			return Guess;
+			// assume the guess is valid
+			break;
 		}
 		std::cout << std::endl;
 	} while (Status != EGuessStatus::OK); // keep looping until we get no errors
+	return Guess;
 }
 
 bool AskToPlayAgain()
