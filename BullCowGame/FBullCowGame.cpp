@@ -14,12 +14,12 @@ EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 	// if the guess isn't an isogram, return an error
 	if (false)
 	{
-		return EGuessStatus::Not_Isogram;
+		return EGuessStatus::Not_Isogram; // TODO write function
 	}
 	// if the guess isn't all lowercase, return an error
 	else if (false)
 	{
-		return EGuessStatus::Not_Lowercase;
+		return EGuessStatus::Not_Lowercase; // TODO write function
 	}
 	// if the guess length if wrong, return an error
 	else if (Guess.length() != GetHiddenWordLength())
@@ -37,7 +37,7 @@ EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 
 void FBullCowGame::Reset()
 {
-	constexpr int32 MAX_TRIES = 8;
+	constexpr int32 MAX_TRIES = 4;
 	const FString HIDDEN_WORD = "badger";
 
 	MyMaxTries = MAX_TRIES;
