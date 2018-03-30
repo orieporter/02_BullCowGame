@@ -1,15 +1,43 @@
+/*
+This is the cpp file for the FBullCowGame class.
+This implements all the logic for the backend of
+the game.
+*/
+#pragma once
 #include "FBullCowGame.h"
 #include <map>
-#define TMap std::map
 
+// to make syntax unreal friendly
+#define TMap std::map
 using int32 = int;
 
-FBullCowGame::FBullCowGame() { Reset(); }
+FBullCowGame::FBullCowGame() { Reset(); } // default constructor
 
-int32 FBullCowGame::GetMaxTries() const { return MyMaxTries;}
+
 int32 FBullCowGame::GetCurrentTry() const { return MyCurrentTry; }
 int32 FBullCowGame::GetHiddenWordLength() const { return MyHiddenWord.length(); }
 bool FBullCowGame::IsGameWon() const { return bGameIsWon; }
+
+// return max tries depending on length of the hidden word
+int32 FBullCowGame::GetMaxTries() const
+{
+	TMap<int32, int32> WordLengthToMaxTries{ {3, 4}, {4, 5}, {5, 6}, {6, 7}, {7, 8} }; // map hidden word length to max tries given
+	return WordLengthToMaxTries[MyHiddenWord.length()];
+}
+
+// resets game to initial state and provides default values for max tries and hidden word
+void FBullCowGame::Reset()
+{
+	constexpr int32 MAX_TRIES = 4;
+	const FString HIDDEN_WORD = "badgers"; // this MUST be an isogram
+
+	MyMaxTries = MAX_TRIES;
+	MyHiddenWord = HIDDEN_WORD;
+	MyCurrentTry = 1;
+	bGameIsWon = false;
+
+	return;
+}
 
 EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 {
@@ -23,37 +51,18 @@ EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 	{
 		return EGuessStatus::Not_Lowercase;
 	}
-	// if the guess length if wrong, return an error
+	// if the guess length is wrong, return an error
 	else if (Guess.length() != GetHiddenWordLength())
 	{
 		return EGuessStatus::Wrong_Length;
 	}
-	// otherwise return OK
 	else
 	{
 		return EGuessStatus::OK;
 	}
 }
 
-
-
-void FBullCowGame::Reset()
-{
-	constexpr int32 MAX_TRIES = 4;
-	const FString HIDDEN_WORD = "badger";
-
-	MyMaxTries = MAX_TRIES;
-	MyHiddenWord = HIDDEN_WORD;
-	MyCurrentTry = 1;
-	bGameIsWon = false;
-
-	return;
-}
-
-
-
-
-// receives a VALID guess, increments turn, and returns count
+// receives a VALID guess, increments turn, and returns count of bulls and cows
 FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess)
 {
 	MyCurrentTry++;

@@ -1,6 +1,12 @@
+/*
+This is the header file for the FBullCowGame class.
+This declares all the methods and variables which
+control the backend of the game.
+*/
 #pragma once
 #include <string>
 
+// to make syntax Unreal friendly
 using FString = std::string;
 using int32 = int;
 
@@ -11,6 +17,7 @@ struct FBullCowCount
 	int32 Cows = 0;
 };
 
+// enum with values to use when validating a guess
 enum class EGuessStatus
 {
 	Invalid_Status,
@@ -32,7 +39,7 @@ public:
 	EGuessStatus CheckGuessValidity(FString) const;
 	bool IsGameWon() const;
 	
-	void Reset(); // TODO make a more rich return value
+	void Reset();
 	FBullCowCount SubmitValidGuess(FString);
 
 
